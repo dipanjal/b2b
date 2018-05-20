@@ -1,0 +1,136 @@
+
+<head>
+    <title>no title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <script type="text/javascript" src="https://www.google.com/jsapi">
+    </script>
+
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-1.12.3.min.js"   integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ="   crossorigin="anonymous"></script>
+<!-- <script src="../script/shuffleText/js/shuffletext.jquery.js"></script> -->
+<script src="http://127.0.0.1/shuffleText/js/shuffletext.jquery.js"></script>
+<script src="http://127.0.0.1/B2B/web/view/scripts.js"></script>
+
+    
+  </head>
+
+
+<body>
+    <div class="container">
+    <!-- <div class="jumbotron"> -->
+    <div class="banner">
+      <h1 class="headline">English To Bangla Typing</h1> 
+      <!-- <div id="wrapper">ভেজাল মুক্ত বাংলা টাইপিং</div>  -->
+      <!-- animated text headline -->
+      <div class="headline sub" id="wrapper"></div> 
+    </div>
+
+
+	  <div>
+	    <textarea class="input" id="transliterateTextarea" data-placeholder=""></textarea>
+	      <div class="well well-sm">
+	        <p class="copy">click text to copy</p>
+		  </div>
+	  </div>
+  </div>
+
+
+
+<script>
+
+	//text animation
+    $(function() {
+
+      $.getJSON("captions.json",function(resp){
+        // console.log(resp);
+        var title=resp.title;
+        var captions = resp.captions;
+        var placeholder= resp.placeholder;
+        // console.log("title: "+title);
+        // console.log(captions);  
+        $("title").text(title);
+        $('#wrapper').ShuffleText(captions,{loop: true, delay: 3000});
+        $("#transliterateTextarea").attr("data-placeholder",placeholder);
+
+      });
+
+    });
+
+    //copy to clipboard
+    $("#transliterateTextarea").click(function(e){
+      var text=$(this).val();
+      if(text!=""){
+        $(this).select();
+        document.execCommand('copy');
+        console.log(text);
+        $(".copy").text("copied to clipboard!");
+      }else{
+        var placeholder=$(this).attr("data-placeholder");
+        $(this).attr("placeholder",placeholder);
+        console.log("placeholder:"+placeholder);
+        console.log("clicked but not copied");
+      }
+    });
+
+    $("#transliterateTextarea").focusout(function(){
+      $(".copy").text("click text to copy");
+    });
+
+</script>
+
+	<style>
+  	textarea{
+  		width: 100%;
+  		height: 20%;
+  		zoom:2;
+  		border-radius: 5px;
+ 	 }
+   .headline{
+    text-align: right;
+   }
+   .headline.sub {
+
+    background: darkseagreen;
+    padding-right: 5px;
+    font-size: 18px;
+    font-weight: bold;
+   }
+   .copy{
+        text-align: -webkit-center;
+      }
+
+
+	   /*body {
+	    	background-color: lightgreen;
+		}
+
+	@media only screen and (max-width: 600px) {
+	    body {
+	        background-color: lightblue;
+	    }
+	}
+*/
+	
+	.banner {
+	    padding: 2rem 1rem;
+	    margin-bottom: 2rem;
+	    background-color: #e9ecef;
+	    border-radius: .3rem;
+	}
+
+   .clearfix:after {
+      content: " ";
+      display: table;
+      clear: both;
+    }
+
+
+    
+
+  </style>
+
+</body>
